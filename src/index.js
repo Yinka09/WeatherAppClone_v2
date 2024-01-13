@@ -8,7 +8,7 @@ function displayCurrentWeather(response) {
   let date = new Date(response.data.time * 1000);
   let weatherIcon = document.querySelector("#icon-image");
   weatherIcon.innerHTML = `<img src="${response.data.condition.icon_url}"
-                      class="weather-app-emoji"
+                      class="weather-app-emoji" draggable="true"
                     />`;
 
   searchCity.innerHTML = response.data.city;
