@@ -1,3 +1,4 @@
+//Function to display the current weather conditions, date-time, weather icon
 function displayCurrentWeather(response) {
   let currentTemp = document.querySelector("#weather-app-temp");
   let searchCity = document.querySelector("#weather-app-city");
@@ -19,8 +20,12 @@ function displayCurrentWeather(response) {
 
   let apiCurrentTemp = response.data.temperature.current;
   currentTemp.innerHTML = Math.round(apiCurrentTemp);
+
+  //Call the getWeatherForecast func using the reponse.data.city to ensure accurate data input
+  getWeatherForecast(response.data.city);
 }
 
+//Function to create the formatted current date and time to be displayed
 function formatDate(date) {
   let hour = date.getHours();
   let minutes = date.getMinutes();
@@ -50,8 +55,10 @@ function apiSearchCity(city) {
   axios.get(apiUrl).then(displayCurrentWeather);
 }
 
-//Function to display forecast weather
-function displayForecastWeather() {
+//Function which takes in a response from the axios API URL call from getWeatherForecast(city)
+function displayForecastWeather(response) {
+  console.log(response.data);
+
   let days = ["Fri", "Sat", "Sun", "Mon", "Tue"];
   let forecastHMTL = "";
 
@@ -78,6 +85,15 @@ function displayForecastWeather() {
   forecastElement.innerHTML = forecastHMTL;
 }
 
+//Function to make the API call for the weather forecast section
+function getWeatherForecast(city) {
+  let apiKey = "8ee4f5od9c4ae9cb47ffb5f4t03d2531";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+  console.log(apiUrl);
+  axios.get(apiUrl).then(displayForecastWeather);
+}
+
+//Function which does the weather search for each city the user enters
 function doSearch(event) {
   event.preventDefault();
   let searchInput = document.querySelector("#search-form-input");
@@ -94,4 +110,3 @@ let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", doSearch);
 
 apiSearchCity("Lagos");
-displayForecastWeather();
