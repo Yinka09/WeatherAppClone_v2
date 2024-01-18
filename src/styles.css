@@ -101,8 +101,10 @@ main {
 }
 
 .weather-forecast-icon {
-  display: flex;
-  justify-content: center;
+  display: block;
+  margin: 0 auto;
+  width: 88px;
+  height: 88px;
 }
 
 .weather-forecast-temps {
