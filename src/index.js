@@ -17,7 +17,6 @@ function displayCurrentWeather(response) {
   weatherWind.innerHTML = `${response.data.wind.speed}km/h`;
   currentDateTime.innerHTML = formatDate(date);
 
-  //console.log(response.data.condition.icon);
   let apiCurrentTemp = response.data.temperature.current;
   currentTemp.innerHTML = Math.round(apiCurrentTemp);
 }
@@ -51,6 +50,34 @@ function apiSearchCity(city) {
   axios.get(apiUrl).then(displayCurrentWeather);
 }
 
+//Function to display forecast weather
+function displayForecastWeather() {
+  let days = ["Fri", "Sat", "Sun", "Mon", "Tue"];
+  let forecastHMTL = "";
+
+  days.forEach(function (day) {
+    forecastHMTL =
+      forecastHMTL +
+      `<div class="col-2">
+            <div class="weather-forecast-date">${day}</div>
+            <div class="weather-forecast-icon">
+              <img
+                src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/mist-night.png"
+                alt="Weather icon"
+                width="50"
+              />
+            </div>
+            <div class="weather-forecast-temps">
+              <div class="weather-forecast-temp-max"><strong>18º</strong></div>
+              <div class="weather-forecast-temp-min">12º</div>
+            </div>
+          </div>`;
+  });
+
+  let forecastElement = document.querySelector("#weather-forecast");
+  forecastElement.innerHTML = forecastHMTL;
+}
+
 function doSearch(event) {
   event.preventDefault();
   let searchInput = document.querySelector("#search-form-input");
@@ -67,3 +94,4 @@ let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", doSearch);
 
 apiSearchCity("Lagos");
+displayForecastWeather();
