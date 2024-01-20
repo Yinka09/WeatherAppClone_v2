@@ -29,7 +29,9 @@ function displayCurrentWeather(response) {
   currentTemp.innerHTML = Math.round(apiCurrentTemp);
 
   // Call the getWeatherForecast func using the reponse.data.city to ensure accurate data input
-  getWeatherForecast(response.data.city);
+  // getWeatherForecast(response.data.city);
+  // NEW CODE
+  getWeatherForecast(response.data.coordinates);
 }
 
 // Function to create the formatted current date and time to be displayed
@@ -94,25 +96,18 @@ function displayForecastWeather(response) {
       forecastHMTL =
         forecastHMTL +
         `<div class="col-2">
-            <div class="weather-forecast-date">${formatforecastDay(
-          day.time
-        )}</div>
-            <div>
-              <img
-                src="${day.condition.icon_url}" class="weather-forecast-icon"
-                alt="Weather icon"
-                
-              />
-            </div>
-            <div class="weather-forecast-temps">
-              <div class="weather-forecast-temp-max"><strong>${Math.round(
-          day.temperature.maximum
-        )}º</strong></div>
-              <div class="weather-forecast-temp-min">${Math.round(
-          day.temperature.minimum
-        )}º</div>
-            </div>
-          </div>`;
+        <div class="weather-forecast-date">${formatforecastDay(day.time)}</div>
+        <div class="icon-div">
+        <img src="${
+          day.condition.icon_url
+        }" class="weather-forecast-icon" alt="Weather icon"/></div>
+        <div class="weather-forecast-temps">
+              <div class="weather-forecast-temp-max"><strong>${Math.round(
+                day.temperature.maximum
+              )}º</strong></div>
+              <div class="weather-forecast-temp-min">${Math.round(
+                day.temperature.minimum
+              )}º</div></div></div>`;
     }
   });
 
@@ -121,9 +116,13 @@ function displayForecastWeather(response) {
 }
 
 //Function to make the API call for the weather forecast section
-function getWeatherForecast(city) {
+function getWeatherForecast(coordinates) {
   let apiKey = "8ee4f5od9c4ae9cb47ffb5f4t03d2531";
-  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+  // let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+  // console.log(apiUrl);
+
+  //NEW CODE//
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.longitude}&lat=${coordinates.latitude}&key=${apiKey}`;
   console.log(apiUrl);
   axios.get(apiUrl).then(displayForecastWeather);
 }
